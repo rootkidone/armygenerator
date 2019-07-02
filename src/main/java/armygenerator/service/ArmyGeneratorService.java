@@ -10,7 +10,7 @@ import armygenerator.util.TroopManagerObject;
 
 public class ArmyGeneratorService {
 	
-	private final Integer numberOfAllTroopVariations = TroopEnum.values().length;
+	private final Integer numberOfAllTroopVariations = TroopEnum.values().length - 1;
 
 	public TroopDTOJson createTroops(Integer numberOfTroops) {
 		TroopManagerObject manager = new TroopManagerObject();
