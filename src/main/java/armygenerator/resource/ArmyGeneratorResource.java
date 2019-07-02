@@ -4,7 +4,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +24,8 @@ public class ArmyGeneratorResource {
 		this.armyGeneratorService = armyGeneratorService;
 	}
 
-	@RequestMapping("/generate")
-	public Response generateTroops(@RequestParam(value="numberOfTroops") Integer numberOfTroops) {
+	@RequestMapping(value = "/generate/{numberOfTroops}", method = RequestMethod.GET, produces = "application/json")
+	public Response generateTroops(@PathVariable Integer numberOfTroops) {
 		try {
 			return buildResponse(armyGeneratorService.createTroops(numberOfTroops));
 		} catch (Exception e) {
