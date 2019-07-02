@@ -16,6 +16,7 @@ import armygenerator.util.TroopDTOJson;
 @RestController
 public class ArmyGeneratorResource {
 
+	private static final String ERROR_NUMBER_OF_TROOPS = "Number of troops is too high or low.";
 	@Autowired
 	private ArmyGeneratorService armyGeneratorService;
 
@@ -27,6 +28,10 @@ public class ArmyGeneratorResource {
 
 	@GetMapping(value = "/generate", produces = "application/json")
 	public ResponseEntity generateTroops(@RequestParam Integer numberOfTroops) {
+		if(numberOfTroops <= 0 || numberOfTroops >= Integer.MAX_VALUE) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(ERROR_NUMBER_OF_TROOPS);
+		}
+		
 		try {
 			return buildJsonResponse(armyGeneratorService.createTroops(numberOfTroops));
 		} catch (Exception e) {

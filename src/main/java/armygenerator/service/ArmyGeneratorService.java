@@ -16,6 +16,7 @@ public class ArmyGeneratorService {
 	private final Integer numberOfAllTroopVariations = TroopEnum.values().length;
 
 	public TroopDTOJson createTroops(Integer numberOfTroops) {
+		/*No boundary test necessary. Has been tested in resource*/
 		TroopManagerObject manager = new TroopManagerObject();
 		Random dice = new Random();
 		for(int i = 0; i < numberOfTroops; i++) {
