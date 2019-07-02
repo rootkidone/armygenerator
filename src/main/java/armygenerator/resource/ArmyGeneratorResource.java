@@ -1,20 +1,22 @@
 package armygenerator.resource;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import armygenerator.service.ArmyGeneratorService;
 import armygenerator.util.TroopDTOJson;
 
+@SuppressWarnings("rawtypes")
 @RestController
 public class ArmyGeneratorResource {
 
+	@Autowired
 	private ArmyGeneratorService armyGeneratorService;
 
 	public ArmyGeneratorResource(ArmyGeneratorService armyGeneratorService) {
@@ -23,17 +25,22 @@ public class ArmyGeneratorResource {
 		this.armyGeneratorService = armyGeneratorService;
 	}
 
-	@RequestMapping(value = "/generate/{numberOfTroops}", method = RequestMethod.GET, produces = "application/json")
-	public Response generateTroops(@PathVariable Integer numberOfTroops) {
+	@GetMapping(value = "/generate", produces = "application/json")
+	public ResponseEntity generateTroops(@RequestParam Integer numberOfTroops) {
 		try {
-			return buildResponse(armyGeneratorService.createTroops(numberOfTroops));
+			return buildJsonResponse(armyGeneratorService.createTroops(numberOfTroops));
 		} catch (Exception e) {
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Something went wrong.").build();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.TEXT_PLAIN).body(e);
 		}
 	}
 
-	private Response buildResponse(TroopDTOJson createdTroops) {
-		return Response.ok(createdTroops, MediaType.APPLICATION_JSON).build();
+	@GetMapping("/ping")
+	public ResponseEntity ping() {
+		return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body("pong");
+	}
+
+	private ResponseEntity buildJsonResponse(TroopDTOJson createdTroops) {
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(createdTroops);
 	}
 
 }

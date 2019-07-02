@@ -4,13 +4,16 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import org.springframework.stereotype.Component;
+
 import armygenerator.troops.TroopEnum;
 import armygenerator.util.TroopDTOJson;
 import armygenerator.util.TroopManagerObject;
 
+@Component
 public class ArmyGeneratorService {
 	
-	private final Integer numberOfAllTroopVariations = TroopEnum.values().length - 1;
+	private final Integer numberOfAllTroopVariations = TroopEnum.values().length;
 
 	public TroopDTOJson createTroops(Integer numberOfTroops) {
 		TroopManagerObject manager = new TroopManagerObject();
@@ -32,16 +35,14 @@ public class ArmyGeneratorService {
 		Iterator<Entry<TroopEnum, Integer>> iterator = manager.getTroopManagementMap().entrySet().iterator();
 		while(iterator.hasNext()) {
 			Entry<TroopEnum, Integer> currentEntry = iterator.next();
-			if(currentEntry.getKey() == TroopEnum.ARCHER) {				
+			if(currentEntry.getKey().equals(TroopEnum.ARCHER)) {				
 				result.setNumberOfArchers(currentEntry.getValue());
 			}
-			if(currentEntry.getKey() == TroopEnum.SWORDMAN) {				
+			if(currentEntry.getKey().equals(TroopEnum.SWORDMAN)) {				
 				result.setNumberOfSwordsmen(currentEntry.getValue());
 			}
-			if(currentEntry.getKey() == TroopEnum.SPEARMAN) {				
+			if(currentEntry.getKey().equals(TroopEnum.SPEARMAN)) {				
 				result.setNumberOfSpearmen(currentEntry.getValue());
-			} else {
-				throw new IllegalArgumentException("Enum not known.");
 			}
 		}
 		return result;

@@ -10,7 +10,7 @@ public class TroopManagerObject {
 	private final Map<TroopEnum, Integer> troopManagementMap;
 
 	public TroopManagerObject() {
-		this.troopManagementMap = new HashMap<TroopEnum, Integer>();
+		this.troopManagementMap = new HashMap<>();
 		buildMap(troopManagementMap);
 	}
 
@@ -22,13 +22,13 @@ public class TroopManagerObject {
 	
 	public void add(TroopEnum troopToAdd) {
 		if(troopToAdd != null) {
-			if(troopToAdd == TroopEnum.ARCHER) {
+			if(troopToAdd.equals(TroopEnum.ARCHER)) {
 				addArcher();
 			}
-			if(troopToAdd == TroopEnum.SWORDMAN) {
+			if(troopToAdd.equals(TroopEnum.SWORDMAN)) {
 				addSwordman();
 			}
-			if(troopToAdd == TroopEnum.SPEARMAN) {
+			if(troopToAdd.equals(TroopEnum.SPEARMAN)) {
 				addSpearman();
 			}
 		}
