@@ -28,12 +28,19 @@ public class ArmyGeneratorResource {
 
 	@GetMapping(value = "/generate", produces = "application/json")
 	public ResponseEntity generateTroops(@RequestParam Integer numberOfTroops) {
-		if(numberOfTroops <= 0 || numberOfTroops >= Integer.MAX_VALUE) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN).body(ERROR_NUMBER_OF_TROOPS);
+		if (numberOfTroops <= 0 || numberOfTroops >= Integer.MAX_VALUE) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.TEXT_PLAIN)
+					.body(ERROR_NUMBER_OF_TROOPS);
 		}
-		
+
 		try {
-			return buildJsonResponse(armyGeneratorService.createTroops(numberOfTroops));
+			TroopDTOJson createTroops = armyGeneratorService.createTroops(numberOfTroops);
+			if (createTroops != null) {
+				return buildJsonResponse(createTroops);
+			} else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.TEXT_PLAIN)
+						.body("Something unexpected happended.");
+			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.TEXT_PLAIN).body(e);
 		}
