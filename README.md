@@ -2,7 +2,7 @@
 
 ##How to make the application run locally
 
-1. Download all the sources
+1. Download the sources
 2. Import sources as Maven Project
 3. Run Maven -> update project
 4. Run Maven -> clean install
